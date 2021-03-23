@@ -22,7 +22,7 @@ const MaterialTableUser = (props) => {
     console.log(props.settingData)
     console.log(props.infoData)
     let dataFieldNames = []
-    const {settingData, infoData, setInfoData } = props;
+    const {settingData, infoData, tempInfoData } = props;
     // let keyword = {infoData}
     // console.log(keyword)
     // const [tempInfoData,setTempInfoData] = useState(keyword)
@@ -73,7 +73,7 @@ const MaterialTableUser = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {infoData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((rowData) => (
+            {tempInfoData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((rowData) => (
               <TableRow key={rowData.id}>
                 {dataFieldNames.map( field_name => {
                   return <TableCell align="left"> {rowData[field_name] }  </TableCell>

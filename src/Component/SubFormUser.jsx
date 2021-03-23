@@ -57,6 +57,7 @@ const SubFormUser = () => {
  
     const [mainData,setMainData] = useState(SettingsDatas)
     const [infoData,setInfoData] = useState(RecordDatas)
+    const [tempInfoData,setTempInfoData] = useState(RecordDatas)
     
     const [value, setValue] = useState(() => mainData[0].field_api_name);
   
@@ -77,13 +78,24 @@ const SubFormUser = () => {
         
       }
 
-      const handleKeyword = (e,field_api_name) => {
+    //   const handleKeyword = (e,field_api_name) => {
+    //     // console.log(field_api_name)
+    //     let temp_record_datas = infoData[field_api_name];
+    //     console.log(temp_record_datas)
+    //     const val = temp_record_datas !== null && temp_record_datas.filter(userData => JSON.stringify(userData).toLowerCase().includes(e.target.value.toLowerCase()))
+    //     console.log(val)
+
+    //   }
+
+    const handleKeyword = (e,field_api_name) => {
         // console.log(field_api_name)
-        let temp_record_datas = infoData[field_api_name];
+        let temp_record_datas = tempInfoData[field_api_name];
         console.log(temp_record_datas)
         const val = temp_record_datas !== null && temp_record_datas.filter(userData => JSON.stringify(userData).toLowerCase().includes(e.target.value.toLowerCase()))
         console.log(val)
-       
+        let temp_data ={...tempInfoData}
+        temp_data[field_api_name] = val;
+        setTempInfoData(temp_data)
 
       }
     return (
@@ -100,7 +112,7 @@ const SubFormUser = () => {
         </TabPanel> */}
         {mainData.map(settingData =>(
             <TabPanel value={value} index={settingData.field_api_name} >
-                <MaterialTable  infoData={infoData[settingData.field_api_name]} setInfoData={infoData[settingData.field_api_name]} settingData={settingData} handleDeleteRecordData={ (event, field_api_name, id) =>deleteRecordData(event, field_api_name, id)} handleKeyword={ (e, field_api_name) =>handleKeyword(e,field_api_name)} />
+                <MaterialTable tempInfoData={tempInfoData[settingData.field_api_name]}  infoData={infoData[settingData.field_api_name]} setInfoData={infoData[settingData.field_api_name]} settingData={settingData} handleDeleteRecordData={ (event, field_api_name, id) =>deleteRecordData(event, field_api_name, id)} handleKeyword={ (e, field_api_name) =>handleKeyword(e,field_api_name)} />
             </TabPanel>
      
         ) )}
