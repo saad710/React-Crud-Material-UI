@@ -10,6 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { TablePagination, TextField } from '@material-ui/core';
+import { Modal, ModalBody, ModalHeader } from "reactstrap";
 
 const useStyles = makeStyles({
     table: {
@@ -19,10 +20,21 @@ const useStyles = makeStyles({
   
 
 const MaterialTableUser = (props) => {
+  const [modal, setModal] = useState(false);
+
+  const [title, setTitle] = useState('');
+  const unitObject = {
+    Account_Name      : '',
+    Phone      : '',
+    Fax: '',
+    Website: ''
+}
+  const [unit, setUnit] = useState(unitObject);
+  const [action, setAction] = useState('');
     console.log(props.settingData)
     console.log(props.infoData)
     let dataFieldNames = []
-    const {settingData, infoData, tempInfoData } = props;
+    const {settingData, infoData, tempInfoData,setInfoData,setTempInfoData } = props;
     // let keyword = {infoData}
     // console.log(keyword)
     // const [tempInfoData,setTempInfoData] = useState(keyword)
@@ -48,6 +60,46 @@ const MaterialTableUser = (props) => {
         setPage(0);
     };
 
+
+    const addData = () => {
+      setUnit(unitObject)
+      setTitle('Add User')
+      setAction('Add')
+      setModal(true);
+  };
+
+    const editData = (rowData) => {
+      setUnit(rowData);
+      setTitle('Edit Data');
+      setAction('Save');
+      setModal(true)
+    }
+
+  const handleInputChange = (event) => {
+    const {name, value} = event.target;
+    setUnit({...unit, [name]: value})
+    console.log(unit)
+}
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if(action === "Add"){
+      const newData = infoData;
+      console.log(newData)
+      newData.push(unit)
+      console.log(newData)
+      setInfoData(newData)
+      // setTempInfoData(newData)
+     
+      console.log(infoData)
+      setModal(false)
+    }
+    else{
+      setModal(false)
+    }
+    
+  }
+
     // const handleKeyword = (e) => {
     //     const val = infoData !== null && infoData.filter(userData => JSON.stringify(userData).toLowerCase().includes(e.target.value.toLowerCase()))
     //     console.log(val)
@@ -58,9 +110,28 @@ const MaterialTableUser = (props) => {
         <div className="row" style={{float:'right'}}>
             <div>
                 <TextField id="filled-basic" label="Search" variant="filled" style={{marginRight:"0.6rem",marginBottom:"0.4rem"}} onChange={(e) => props.handleKeyword(e, settingData.field_api_name)} />
-                <Button variant="contained" color="primary" style={{marginRight:"0.4rem",marginTop:"0.5rem"}}>
+                <Button variant="contained" color="primary" style={{marginRight:"0.4rem",marginTop:"0.5rem"}} onClick={() =>  addData('Add')}>
                     Add New Data
                 </Button>
+                <Modal
+                  className="container-fluid"
+                  isOpen={modal}
+                  size="lg"
+                 
+                >
+                  <ModalHeader >{title}</ModalHeader>
+                  <ModalBody>
+                    <form onSubmit={handleSubmit} >
+                      {dataFieldNames.map(inputField => (
+                        <input type="text" className="form-control" name={inputField} placeholder={inputField} onChange={handleInputChange} defaultValue={unit[inputField]}  ></input>
+                      ))}
+
+                        <button className="btn btn-pill btn-sm btn-primary d-block ml-auto mt-2" type="submit" > {action} </button>
+                        
+                    
+                    </form>
+                  </ModalBody>
+                </Modal>
             </div>
         </div>
         <Table className={classes.table} size="small" aria-label="a dense table">
@@ -80,7 +151,7 @@ const MaterialTableUser = (props) => {
                 })}    
                 <TableCell align="right">
                   <ButtonGroup color="primary" aria-label="outlined primary button group">
-                    <Button >Edit</Button>
+                    <Button  onClick={() => editData(rowData)}>Edit</Button>
                     <Button onClick={(event) => props.handleDeleteRecordData(event, settingData.field_api_name, rowData.id)} >Delete</Button>
                   </ButtonGroup>
                 </TableCell>          
@@ -92,7 +163,7 @@ const MaterialTableUser = (props) => {
             <TablePagination
         rowsPerPageOptions={[1,5,10, 25, 100]}
         component="div"
-        count={infoData !== null && infoData.length}
+        count={tempInfoData !== null && tempInfoData.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onChangePage={handleChangePage}
