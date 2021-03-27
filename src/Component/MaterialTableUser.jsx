@@ -109,7 +109,7 @@ const MaterialTableUser = (props) => {
         <TableContainer component={Paper}>
         <div className="row" style={{float:'right'}}>
             <div>
-                <TextField id="filled-basic" label="Search" variant="filled" style={{marginRight:"0.6rem",marginBottom:"0.4rem"}} onChange={(e) => props.handleKeyword(e, settingData.field_api_name)} />
+                <TextField id="filled-basic" label="Search" variant="filled" style={{marginRight:"0.6rem",marginBottom:"0.4rem"}} onChange={(e) => props.handleKeyword(e, settingData.field_api_name,settingData,infoData)} />
                 <Button variant="contained" color="primary" style={{marginRight:"0.4rem",marginTop:"0.5rem"}} onClick={() =>  addData('Add')}>
                     Add New Data
                 </Button>
@@ -145,8 +145,10 @@ const MaterialTableUser = (props) => {
           </TableHead>
           <TableBody>
             {tempInfoData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((rowData) => (
+              
               <TableRow key={rowData.id}>
                 {dataFieldNames.map( field_name => {
+                //  console.log(rowData)
                   return <TableCell align="left"> {rowData[field_name] }  </TableCell>
                 })}    
                 <TableCell align="right">

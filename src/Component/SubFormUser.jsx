@@ -9,6 +9,7 @@ import Box from '@material-ui/core/Box';
 
 import MaterialTable from './MaterialTableUser';
 import { RecordDatas, SettingsDatas } from './Fakedata';
+import { TextField } from '@material-ui/core';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -89,9 +90,54 @@ const SubFormUser = () => {
     //   }
 
       //Search_table_data
-      const handleKeyword = (e,field_api_name) => {
-        let temp_record_datas = infoData[field_api_name];
+      const handleKeyword = (e,field_api_name,settingData) => {
+       
+        let dataFieldNames = [];
+        settingData.fields.forEach(field => {
+          dataFieldNames = [...dataFieldNames, field.api_name];
+        });
+        
+        console.log(dataFieldNames)
+        console.log(settingData)
+        // const data = ['Account_Name','Phone']
+        // var result = [];
+        let temp_record_datas = [];
+       
+        
+        dataFieldNames.forEach((dataField) =>  {
+          temp_record_datas = [...temp_record_datas,infoData[field_api_name].map(info => info[dataField] )];
+          // infoData[field_api_name] = []
+          // infoData[field_api_name].push(temp_record_datas)
+          
+          // const convertData = temp_record_datas.toString()
+          // datas.push(convertData)
+        })
+        // console.log(datas)
+        // console.log(result)
+        // let d = []
+        // data.forEach(f => {
+        //   d= [...d, f]
+        // })
+        // console.log(d)
+       
+        // const input = temp_record_datas[dataFieldNames]
+        // console.log(input)
+        // let inputValue = []
+        // infoData.forEach(
+        //   i => {
+        //     inputValue = [...inputValue, i[dataFieldNames.map(d => d.api_name)]]
+            
+        //   }
+        // )
+        // console.log(inputValue)
         console.log(temp_record_datas)
+        console.log(infoData[field_api_name])
+        // const val = temp_record_datas !== null && temp_record_datas.filter(userData => JSON.stringify(userData).toLowerCase().includes(e.target.value.toLowerCase()))
+        // console.log(val)
+        // let temp_data ={...tempInfoData,...infoData}
+        // temp_data[field_api_name] = val;
+        // setTempInfoData(temp_data)
+        
         const val = temp_record_datas !== null && temp_record_datas.filter(userData => JSON.stringify(userData).toLowerCase().includes(e.target.value.toLowerCase()))
         console.log(val)
         let temp_data ={...tempInfoData,...infoData}
@@ -106,14 +152,16 @@ const SubFormUser = () => {
               {mainData.map(settingData => (
             <Tab label={settingData.module}  value={settingData.field_api_name} id={settingData.field_api_name} aria-controls = {settingData.field_api_name} />
             ))}
+               
           </Tabs>
+          {/* <TextField id="filled-basic" label="Search" variant="filled" style={{float:"right"}}  /> */}
         </AppBar>
         {/* <TabPanel value={value} index={0}>
           Item One
         </TabPanel> */}
         {mainData.map(settingData =>(
             <TabPanel value={value} index={settingData.field_api_name} >
-                <MaterialTable tempInfoData={tempInfoData[settingData.field_api_name]}  infoData={infoData[settingData.field_api_name]} setInfoData={setInfoData} setTempInfoData={tempInfoData[settingData.field_api_name]} settingData={settingData} handleDeleteRecordData={ (event, field_api_name, id) =>deleteRecordData(event, field_api_name, id)} handleKeyword={ (e, field_api_name) =>handleKeyword(e,field_api_name)} />
+                <MaterialTable tempInfoData={tempInfoData[settingData.field_api_name]}  infoData={infoData[settingData.field_api_name]} setInfoData={setInfoData} setTempInfoData={tempInfoData[settingData.field_api_name]} settingData={settingData} handleDeleteRecordData={ (event, field_api_name, id) =>deleteRecordData(event, field_api_name, id)} handleKeyword={ (e, field_api_name,settingData,infoData) =>handleKeyword(e,field_api_name,settingData,infoData)} />
             </TabPanel>
      
         ) )}
