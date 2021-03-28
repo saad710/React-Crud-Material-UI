@@ -133,12 +133,12 @@ const SubFormUser = () => {
          
           val.forEach(v => {
             temp_data[field_api_name] = infoData[field_api_name].filter(m => Object.values(m).includes(v) );
-            setTempInfoData(temp_data)
-            console.log(tempInfoData)
+           
   
           })
        
-         
+          setTempInfoData(temp_data)
+            console.log(tempInfoData)
         //Column_try
 
         // const data = ['Account_Name','Phone']
