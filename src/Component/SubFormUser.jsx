@@ -99,50 +99,67 @@ const SubFormUser = () => {
         
         console.log(dataFieldNames)
         console.log(settingData)
+
+        //row_try
+
+        let valueData = []
+        infoData[field_api_name].map(rowData => {
+        dataFieldNames.forEach((dataField) =>  {
+          valueData = [...valueData, rowData[dataField]]
+          console.log(valueData)
+          // setSearchData(rowData[dataField])
+            
+              // setTempInfoData(temp_data)
+           
+            // let temp_data ={...tempInfoData,...infoData}
+            // temp_data[field_api_name] = val;
+            // setTempInfoData(temp_data)
+         
+         
+        })
+        })
+  
+        const val =  valueData  && valueData.filter(userData => userData.toString().toLowerCase().includes(e.target.value.toLowerCase()))
+      
+        console.log(val)
+        const valData = val.toString()
+        console.log(valData)
+       
+          let temp_data ={...tempInfoData,...infoData}
+          // temp_data[field_api_name] = infoData[field_api_name].filter(m => Object.values(m).some(v => v === valData));
+          // temp_data[field_api_name] = infoData[field_api_name].filter(m => Object.values(m).includes(valData));
+          //    setTempInfoData(temp_data)
+          //   console.log(tempInfoData)
+         
+          val.forEach(v => {
+            temp_data[field_api_name] = infoData[field_api_name].filter(m => Object.values(m).includes(v) );
+            setTempInfoData(temp_data)
+            console.log(tempInfoData)
+  
+          })
+       
+         
+        //Column_try
+
         // const data = ['Account_Name','Phone']
         // var result = [];
-        let temp_record_datas = [];
+        // let temp_record_datas = [];
        
         
-        dataFieldNames.forEach((dataField) =>  {
-          temp_record_datas = [...temp_record_datas,infoData[field_api_name].map(info => info[dataField] )];
-          // infoData[field_api_name] = []
-          // infoData[field_api_name].push(temp_record_datas)
+        // dataFieldNames.forEach((dataField) =>  {
+        //   temp_record_datas = [...temp_record_datas,infoData[field_api_name].map(info => info[dataField] )];
           
-          // const convertData = temp_record_datas.toString()
-          // datas.push(convertData)
-        })
-        // console.log(datas)
-        // console.log(result)
-        // let d = []
-        // data.forEach(f => {
-        //   d= [...d, f]
         // })
-        // console.log(d)
        
-        // const input = temp_record_datas[dataFieldNames]
-        // console.log(input)
-        // let inputValue = []
-        // infoData.forEach(
-        //   i => {
-        //     inputValue = [...inputValue, i[dataFieldNames.map(d => d.api_name)]]
-            
-        //   }
-        // )
-        // console.log(inputValue)
-        console.log(temp_record_datas)
-        console.log(infoData[field_api_name])
+        // console.log(temp_record_datas)
+        // console.log(infoData[field_api_name])
+      
+        
         // const val = temp_record_datas !== null && temp_record_datas.filter(userData => JSON.stringify(userData).toLowerCase().includes(e.target.value.toLowerCase()))
         // console.log(val)
         // let temp_data ={...tempInfoData,...infoData}
         // temp_data[field_api_name] = val;
         // setTempInfoData(temp_data)
-        
-        const val = temp_record_datas !== null && temp_record_datas.filter(userData => JSON.stringify(userData).toLowerCase().includes(e.target.value.toLowerCase()))
-        console.log(val)
-        let temp_data ={...tempInfoData,...infoData}
-        temp_data[field_api_name] = val;
-        setTempInfoData(temp_data)
       }
 
     return (
