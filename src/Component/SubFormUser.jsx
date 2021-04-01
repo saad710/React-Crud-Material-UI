@@ -91,22 +91,36 @@ const SubFormUser = () => {
 
       //Search_table_data
       const handleKeyword = (e,field_api_name,settingData) => {
-       
+        let tabData = [...infoData[field_api_name]];
         let dataFieldNames = [];
         settingData.fields.forEach(field => {
           dataFieldNames = [...dataFieldNames, field.api_name];
         });
+
+        let filteredTabRecordData = tabData.filter(rowData => {
+          let required_field_values = [];
+          dataFieldNames.map(field_name => {
+            required_field_values = [...required_field_values, rowData[field_name]];
+          })
+          console.log("Required Values ", required_field_values);
+          return required_field_values.toString().includes(e.target.value);
+        })
+        console.log("filteredTabRecordData", filteredTabRecordData)
+        let newTempInfoData = {...tempInfoData};
+        newTempInfoData[field_api_name] = filteredTabRecordData;
+        setTempInfoData( newTempInfoData);
+      
         
-        console.log(dataFieldNames)
-        console.log(settingData)
+        // console.log(dataFieldNames)
+        // console.log(settingData)
 
         //row_try
 
-        let valueData = []
-        infoData[field_api_name].map(rowData => {
-        dataFieldNames.forEach((dataField) =>  {
-          valueData = [...valueData, rowData[dataField]]
-          console.log(valueData)
+        // let valueData = []
+        // infoData[field_api_name].map(rowData => {
+        // dataFieldNames.forEach((dataField) =>  {
+        //   valueData = [...valueData, rowData[dataField]]
+        //   console.log(valueData)
           // setSearchData(rowData[dataField])
             
               // setTempInfoData(temp_data)
@@ -116,29 +130,29 @@ const SubFormUser = () => {
             // setTempInfoData(temp_data)
          
          
-        })
-        })
+        // })
+        // })
   
-        const val =  valueData  && valueData.filter(userData => userData.toString().toLowerCase().includes(e.target.value.toLowerCase()))
+        // const val =  valueData  && valueData.filter(userData => userData.toString().toLowerCase().includes(e.target.value.toLowerCase()))
       
-        console.log(val)
-        const valData = val.toString()
-        console.log(valData)
+        // console.log(val)
+        // const valData = val.toString()
+        // console.log(valData)
        
-          let temp_data ={...tempInfoData,...infoData}
+        //   let temp_data ={...tempInfoData,...infoData}
           // temp_data[field_api_name] = infoData[field_api_name].filter(m => Object.values(m).some(v => v === valData));
           // temp_data[field_api_name] = infoData[field_api_name].filter(m => Object.values(m).includes(valData));
           //    setTempInfoData(temp_data)
           //   console.log(tempInfoData)
          
-          val.forEach(v => {
-            temp_data[field_api_name] = infoData[field_api_name].filter(m => Object.values(m).includes(v) );
+          // val.forEach(v => {
+          //   temp_data[field_api_name] = infoData[field_api_name].filter(m => Object.values(m).includes(v) );
            
   
-          })
+          // })
        
-          setTempInfoData(temp_data)
-            console.log(tempInfoData)
+          // setTempInfoData(temp_data)
+          //   console.log(tempInfoData)
         //Column_try
 
         // const data = ['Account_Name','Phone']
